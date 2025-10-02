@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import envs from "./configs/envs.config.js";
 import authRouter from "./auth/routers/auth.routes.js";
+import cookieParser from "cookie-parser";
 import { ConectionDB } from "./database/ConectionDB.js";
 import MongoConfig from "./configs/mongo.config.js";
 
@@ -13,6 +14,7 @@ const PORT = envs.PORT;
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(authRouter);
 

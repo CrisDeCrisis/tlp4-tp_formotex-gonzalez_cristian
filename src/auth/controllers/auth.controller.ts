@@ -1,22 +1,25 @@
 import type { Request, Response } from "express";
-import type { IAuthService } from "../interfaces/IAuthService.js";
+import type { IAuthService } from "./interfaces/IAuthService.js";
 
 export class AuthCtrl {
   constructor(private AuthService: IAuthService) {}
 
-  login(req: Request, res: Response) {
-    res.send(this.AuthService.login());
-  }
+  public login = async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    return res.send(await this.AuthService.login(email, password));
+  };
 
-  register(req: Request, res: Response) {
-    res.send(this.AuthService.register());
-  }
+  public register = async (req: Request, res: Response) => {
+    const { name, email, password } = req.body;
+    return res.send(await this.AuthService.register(name, email, password));
+  };
 
-  auth(req: Request, res: Response) {
-    res.send(this.AuthService.auth());
-  }
+  public auth = async (req: Request, res: Response) => {
+    const token = req.cookies["token"];
+    return res.send(await this.AuthService.auth());
+  };
 
-  logout(req: Request, res: Response) {
-    res.send(this.AuthService.logout());
-  }
+  public logout = async (_req: Request, res: Response) => {
+    return res.send(await this.AuthService.logout());
+  };
 }

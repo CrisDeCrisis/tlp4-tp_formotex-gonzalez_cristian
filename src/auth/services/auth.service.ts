@@ -1,17 +1,17 @@
-import type { IAuthService } from "../interfaces/IAuthService.js";
+import type { IAuthService } from "../controllers/interfaces/IAuthService.js";
 
 // Crear un servicio de autenticación sin logica de negocio
 export class AuthService implements IAuthService {
-  login(): string {
+  async login(): Promise<string> {
     return "Login endpoint";
   }
-  register(): string {
+  async register(): Promise<string> {
     return "Register endpoint";
   }
-  auth(): string {
+  async auth(): Promise<string> {
     return "Auth endpoint";
   }
-  logout(): string {
+  async logout(): Promise<string> {
     return "Logout endpoint";
   }
 }
