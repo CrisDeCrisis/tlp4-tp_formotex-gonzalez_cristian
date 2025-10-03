@@ -1,7 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 
-// Middleware para manejar errores de validación
 export const handleValidationErrors = (
   req: Request,
   res: Response,

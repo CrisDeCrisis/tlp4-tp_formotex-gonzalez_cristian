@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { AuthCtrl } from "../controllers/auth.controller.js";
-import { AuthService } from "../services/auth.service.js";
+import { AuthCtrl } from "./auth.controller.js";
+import { AuthService } from "./auth.service.js";
 import {
   loginValidation,
   registerValidation,
-} from "../validations/auth.validation.js";
-import { handleValidationErrors } from "../middlewares/auth.middleware.js";
+} from "./validations/auth.validation.js";
+import { handleValidationErrors } from "../helpers/handleValidationErrors.js";
 
 const authRouter = Router();
 const authCtrl = new AuthCtrl(new AuthService());
