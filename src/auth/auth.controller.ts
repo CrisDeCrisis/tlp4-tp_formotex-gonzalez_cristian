@@ -24,9 +24,9 @@ export class AuthCtrl {
     return res.json(result);
   };
 
-  public auth = async (req: Request, res: Response) => {
+  public session = async (req: Request, res: Response) => {
     const token = req.cookies["token"];
-    return res.send(await this.authService.auth(token));
+    return res.send(await this.authService.session(token));
   };
 
   public logout = async (_req: Request, res: Response) => {

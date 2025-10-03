@@ -14,7 +14,7 @@ export class AuthService implements IAuthService {
   }
 
   async login(email: string, password: string): Promise<AuthResult> {
-    const user = await this.userRepository.findByEmail(email);
+    // const user = await this.userRepository.findByEmail(email);
     // TODO: Lógica de autenticación aquí
     return {
       success: true,
@@ -23,8 +23,8 @@ export class AuthService implements IAuthService {
     };
   }
 
-  async auth(token: string): Promise<AuthResult> {
-    return { success: true, message: "Auth endpoint", token };
+  async session(token: string): Promise<AuthResult> {
+    return { success: true, message: "Session endpoint", token };
   }
 
   async logout(): Promise<AuthResult> {

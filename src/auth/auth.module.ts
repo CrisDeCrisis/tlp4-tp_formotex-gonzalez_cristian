@@ -6,6 +6,7 @@ import {
   registerValidation,
 } from "./validations/auth.validation.js";
 import { handleValidationErrors } from "../helpers/handleValidationErrors.js";
+import { VerifyJWT } from "../middlewares/verifyJWT.js";
 
 const authRouter = Router();
 const authCtrl = new AuthCtrl(new AuthService());
@@ -22,7 +23,7 @@ authRouter.post(
   handleValidationErrors,
   authCtrl.login
 );
-authRouter.post("/auth", authCtrl.auth);
-authRouter.post("/logout", authCtrl.logout);
+authRouter.get("/session", VerifyJWT.verifyToken, authCtrl.session);
+authRouter.get("/logout", VerifyJWT.verifyToken, authCtrl.logout);
 
 export default authRouter;
