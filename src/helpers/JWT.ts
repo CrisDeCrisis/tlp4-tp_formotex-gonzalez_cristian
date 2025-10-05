@@ -4,7 +4,7 @@ import envs from "../configs/envs.config.js";
 export interface JWTPayload {
   id: string;
   email: string;
-  role?: string;
+  role: string; // Rol del usuario (admin o user)
 }
 
 export class JWT {
