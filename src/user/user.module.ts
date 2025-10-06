@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { VerifyJWT } from "../middlewares/verifyJWT.js";
 import { VerifyRole } from "../middlewares/verifyRole.js";
 import {
@@ -13,9 +13,11 @@ import { getUserController } from "../configs/dependencies.config.js";
 
 const userRouter = Router();
 
-const userController = getUserController();
-
-userRouter.get("/profile", VerifyJWT.verifyToken, userController.getProfile);
+userRouter.get(
+  "/profile",
+  VerifyJWT.verifyToken,
+  (req: Request, res: Response) => getUserController().getProfile(req, res)
+);
 
 userRouter.patch(
   "/:id/promote",
@@ -23,7 +25,7 @@ userRouter.patch(
   VerifyRole.isSuperAdmin,
   getUserByIdValidation,
   handleValidationErrors,
-  userController.promoteToAdmin
+  (req: Request, res: Response) => getUserController().promoteToAdmin(req, res)
 );
 
 userRouter.post(
@@ -32,7 +34,7 @@ userRouter.post(
   VerifyRole.isAdmin,
   createUserValidation,
   handleValidationErrors,
-  userController.createUser
+  (req: Request, res: Response) => getUserController().createUser(req, res)
 );
 
 userRouter.get(
@@ -41,7 +43,7 @@ userRouter.get(
   VerifyRole.isAdmin,
   paginationValidation,
   handleValidationErrors,
-  userController.getAllUsers
+  (req: Request, res: Response) => getUserController().getAllUsers(req, res)
 );
 
 userRouter.delete(
@@ -50,7 +52,7 @@ userRouter.delete(
   VerifyRole.isAdmin,
   deleteUserValidation,
   handleValidationErrors,
-  userController.deleteUser
+  (req: Request, res: Response) => getUserController().deleteUser(req, res)
 );
 
 userRouter.patch(
@@ -59,7 +61,7 @@ userRouter.patch(
   VerifyRole.isAdmin,
   getUserByIdValidation,
   handleValidationErrors,
-  userController.deactivateUser
+  (req: Request, res: Response) => getUserController().deactivateUser(req, res)
 );
 
 userRouter.patch(
@@ -68,7 +70,7 @@ userRouter.patch(
   VerifyRole.isAdmin,
   getUserByIdValidation,
   handleValidationErrors,
-  userController.activateUser
+  (req: Request, res: Response) => getUserController().activateUser(req, res)
 );
 
 userRouter.get(
@@ -77,7 +79,7 @@ userRouter.get(
   VerifyRole.isAdminOrOwner,
   getUserByIdValidation,
   handleValidationErrors,
-  userController.getUserById
+  (req: Request, res: Response) => getUserController().getUserById(req, res)
 );
 
 userRouter.put(
@@ -86,7 +88,7 @@ userRouter.put(
   VerifyRole.isAdminOrOwner,
   updateUserValidation,
   handleValidationErrors,
-  userController.updateUser
+  (req: Request, res: Response) => getUserController().updateUser(req, res)
 );
 
 export default userRouter;

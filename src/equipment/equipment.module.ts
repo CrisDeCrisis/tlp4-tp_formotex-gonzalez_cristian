@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { VerifyJWT } from "../middlewares/verifyJWT.js";
 import { VerifyRole } from "../middlewares/verifyRole.js";
 import {
@@ -19,15 +19,14 @@ import { getEquipmentController } from "../configs/dependencies.config.js";
 
 const equipmentRouter = Router();
 
-const equipmentController = getEquipmentController();
-
 equipmentRouter.post(
   "/",
   VerifyJWT.verifyToken,
   VerifyRole.isAdmin,
   createEquipmentValidation,
   handleValidationErrors,
-  equipmentController.createEquipment
+  (req: Request, res: Response) =>
+    getEquipmentController().createEquipment(req, res)
 );
 
 equipmentRouter.post(
@@ -36,7 +35,8 @@ equipmentRouter.post(
   VerifyRole.isAdmin,
   assignEquipmentValidation,
   handleValidationErrors,
-  equipmentController.assignEquipment
+  (req: Request, res: Response) =>
+    getEquipmentController().assignEquipment(req, res)
 );
 
 equipmentRouter.get(
@@ -45,7 +45,8 @@ equipmentRouter.get(
   VerifyRole.isAdmin,
   paginationValidation,
   handleValidationErrors,
-  equipmentController.getAllEquipments
+  (req: Request, res: Response) =>
+    getEquipmentController().getAllEquipments(req, res)
 );
 
 equipmentRouter.get(
@@ -53,7 +54,8 @@ equipmentRouter.get(
   VerifyJWT.verifyToken,
   paginationValidation,
   handleValidationErrors,
-  equipmentController.getMyEquipments
+  (req: Request, res: Response) =>
+    getEquipmentController().getMyEquipments(req, res)
 );
 
 equipmentRouter.get(
@@ -61,7 +63,8 @@ equipmentRouter.get(
   VerifyJWT.verifyToken,
   getMyEquipmentByIdValidation,
   handleValidationErrors,
-  equipmentController.getMyEquipmentById
+  (req: Request, res: Response) =>
+    getEquipmentController().getMyEquipmentById(req, res)
 );
 
 equipmentRouter.get(
@@ -70,7 +73,8 @@ equipmentRouter.get(
   VerifyRole.isAdmin,
   getEquipmentsByStatusValidation,
   handleValidationErrors,
-  equipmentController.getEquipmentsByStatus
+  (req: Request, res: Response) =>
+    getEquipmentController().getEquipmentsByStatus(req, res)
 );
 
 equipmentRouter.get(
@@ -79,7 +83,8 @@ equipmentRouter.get(
   VerifyRole.isAdmin,
   getEquipmentsByTypeValidation,
   handleValidationErrors,
-  equipmentController.getEquipmentsByType
+  (req: Request, res: Response) =>
+    getEquipmentController().getEquipmentsByType(req, res)
 );
 
 equipmentRouter.get(
@@ -88,7 +93,8 @@ equipmentRouter.get(
   VerifyRole.isAdmin,
   getEquipmentByIdValidation,
   handleValidationErrors,
-  equipmentController.getEquipmentById
+  (req: Request, res: Response) =>
+    getEquipmentController().getEquipmentById(req, res)
 );
 
 equipmentRouter.put(
@@ -97,7 +103,8 @@ equipmentRouter.put(
   VerifyRole.isAdmin,
   updateEquipmentValidation,
   handleValidationErrors,
-  equipmentController.updateEquipment
+  (req: Request, res: Response) =>
+    getEquipmentController().updateEquipment(req, res)
 );
 
 equipmentRouter.patch(
@@ -106,7 +113,8 @@ equipmentRouter.patch(
   VerifyRole.isAdmin,
   updateEquipmentStatusValidation,
   handleValidationErrors,
-  equipmentController.updateEquipmentStatus
+  (req: Request, res: Response) =>
+    getEquipmentController().updateEquipmentStatus(req, res)
 );
 
 equipmentRouter.patch(
@@ -115,7 +123,8 @@ equipmentRouter.patch(
   VerifyRole.isAdmin,
   returnEquipmentValidation,
   handleValidationErrors,
-  equipmentController.returnEquipment
+  (req: Request, res: Response) =>
+    getEquipmentController().returnEquipment(req, res)
 );
 
 equipmentRouter.delete(
@@ -124,7 +133,8 @@ equipmentRouter.delete(
   VerifyRole.isAdmin,
   deleteEquipmentValidation,
   handleValidationErrors,
-  equipmentController.deleteEquipment
+  (req: Request, res: Response) =>
+    getEquipmentController().deleteEquipment(req, res)
 );
 
 export default equipmentRouter;

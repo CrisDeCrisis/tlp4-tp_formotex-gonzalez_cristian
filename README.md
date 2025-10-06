@@ -476,7 +476,8 @@ tp-backend-poo/
 │   │   ├── user.module.ts
 │   │   └── user.service.ts
 │   │
-│   └── index.ts                   # Punto de entrada
+│   ├── app.ts                     # Configuración de Express
+│   └── index.ts                   # Punto de entrada del servidor
 │
 ├── .env                           # Variables de entorno
 ├── package.json

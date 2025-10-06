@@ -19,7 +19,7 @@ async function clearDatabase() {
 async function seedUsers() {
   console.log("\n👥 Creando usuarios...");
 
-  const password = await bcrypt.hash("password123", 10);
+  const password = await bcrypt.hash("Test123", 10);
 
   const users = [
     {
