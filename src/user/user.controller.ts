@@ -33,14 +33,7 @@ export class UserController {
     try {
       const { id } = req.params;
 
-      if (!id) {
-        return res.status(400).json({
-          success: false,
-          message: "ID de usuario requerido",
-        });
-      }
-
-      const user = await this.userService.getUserById(id);
+      const user = await this.userService.getUserById(id!);
 
       if (!user) {
         return res.status(404).json({
@@ -91,17 +84,9 @@ export class UserController {
   ): Promise<Response> => {
     try {
       const { id } = req.params;
-
-      if (!id) {
-        return res.status(400).json({
-          success: false,
-          message: "ID de usuario requerido",
-        });
-      }
-
       const userData: UpdateUserDto = req.body;
 
-      const updatedUser = await this.userService.updateUser(id, userData);
+      const updatedUser = await this.userService.updateUser(id!, userData);
 
       if (!updatedUser) {
         return res.status(404).json({
@@ -133,14 +118,7 @@ export class UserController {
     try {
       const { id } = req.params;
 
-      if (!id) {
-        return res.status(400).json({
-          success: false,
-          message: "ID de usuario requerido",
-        });
-      }
-
-      const deleted = await this.userService.deleteUser(id);
+      const deleted = await this.userService.deleteUser(id!);
 
       if (!deleted) {
         return res.status(404).json({
@@ -169,14 +147,7 @@ export class UserController {
     try {
       const { id } = req.params;
 
-      if (!id) {
-        return res.status(400).json({
-          success: false,
-          message: "ID de usuario requerido",
-        });
-      }
-
-      const user = await this.userService.deactivateUser(id);
+      const user = await this.userService.deactivateUser(id!);
 
       if (!user) {
         return res.status(404).json({
@@ -208,14 +179,7 @@ export class UserController {
     try {
       const { id } = req.params;
 
-      if (!id) {
-        return res.status(400).json({
-          success: false,
-          message: "ID de usuario requerido",
-        });
-      }
-
-      const user = await this.userService.activateUser(id);
+      const user = await this.userService.activateUser(id!);
 
       if (!user) {
         return res.status(404).json({
@@ -234,6 +198,36 @@ export class UserController {
         success: false,
         message:
           error instanceof Error ? error.message : "Error al activar usuario",
+      });
+    }
+  };
+
+  public promoteToAdmin = async (
+    req: Request,
+    res: Response
+  ): Promise<Response> => {
+    try {
+      const { id } = req.params;
+
+      const promotedUser = await this.userService.promoteToAdmin(id!);
+
+      if (!promotedUser) {
+        return res.status(404).json({
+          success: false,
+          message: "Usuario no encontrado",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: "Usuario promovido a administrador exitosamente",
+        data: promotedUser,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Error al promover usuario",
       });
     }
   };

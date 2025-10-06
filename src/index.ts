@@ -7,7 +7,6 @@ import userRouter from "./user/user.module.js";
 import cookieParser from "cookie-parser";
 import { ConectionDB } from "./database/ConectionDB.js";
 import MongoConfig from "./configs/mongo.config.js";
-import { runTests } from "./testing/index.js";
 
 const app = express();
 const PORT = envs.PORT;

@@ -1,6 +1,7 @@
 import { Schema, model, type Document } from "mongoose";
 
 export enum UserRole {
+  SUPER_ADMIN = "super_admin",
   ADMIN = "admin",
   USER = "user",
 }
@@ -21,8 +22,6 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: [true, "El nombre es obligatorio"],
       trim: true,
-      minlength: [2, "El nombre debe tener al menos 2 caracteres"],
-      maxlength: [50, "El nombre no puede exceder los 50 caracteres"],
     },
     email: {
       type: String,
@@ -30,12 +29,10 @@ const userSchema = new Schema<IUser>(
       unique: true,
       lowercase: true,
       trim: true,
-      match: [/^\S+@\S+\.\S+$/, "Formato de email inválido"],
     },
     password: {
       type: String,
       required: [true, "La contraseña es obligatoria"],
-      minlength: [6, "La contraseña debe tener al menos 6 caracteres"],
       select: false,
     },
     role: {

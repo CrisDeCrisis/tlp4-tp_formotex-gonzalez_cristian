@@ -6,6 +6,7 @@ import type {
 } from "./DTOs/userDTO.js";
 import type { User } from "./entities/userEntity.js";
 import type { IUserRepository } from "./repositories/UserRepository.js";
+import { UserRole } from "./models/userModel.js";
 import bcrypt from "bcrypt";
 
 export interface IUserService {
@@ -24,6 +25,7 @@ export interface IUserService {
     email: string,
     password: string
   ): Promise<UserResponseDto | null>;
+  promoteToAdmin(id: string): Promise<UserResponseDto | null>;
 }
 
 export class UserService implements IUserService {
@@ -48,10 +50,6 @@ export class UserService implements IUserService {
       );
       if (existingUser) {
         throw new Error("El email ya está registrado");
-      }
-
-      if (userData.password.length < 6) {
-        throw new Error("La contraseña debe tener al menos 6 caracteres");
       }
 
       const hashedPassword = await bcrypt.hash(userData.password, 10);
@@ -113,9 +111,6 @@ export class UserService implements IUserService {
   ): Promise<UserResponseDto | null> {
     try {
       if (userData.password) {
-        if (userData.password.length < 6) {
-          throw new Error("La contraseña debe tener al menos 6 caracteres");
-        }
         userData.password = await bcrypt.hash(userData.password, 10);
       }
 
@@ -184,6 +179,34 @@ export class UserService implements IUserService {
       return this.mapToResponse(user);
     } catch (error) {
       throw new Error(`Error al validar credenciales: ${error}`);
+    }
+  }
+
+  async promoteToAdmin(id: string): Promise<UserResponseDto | null> {
+    try {
+      const user = await this.userRepository.findById(id);
+      if (!user) {
+        throw new Error("Usuario no encontrado");
+      }
+
+      if (user.role === UserRole.SUPER_ADMIN) {
+        throw new Error(
+          "No se puede modificar el rol de un super administrador"
+        );
+      }
+
+      if (user.role === UserRole.ADMIN) {
+        throw new Error("El usuario ya es administrador");
+      }
+
+      const updatedUser = await this.userRepository.update(id, {
+        role: UserRole.ADMIN,
+      });
+
+      if (!updatedUser) return null;
+      return this.mapToResponse(updatedUser);
+    } catch (error) {
+      throw new Error(`Error al promover usuario: ${error}`);
     }
   }
 }

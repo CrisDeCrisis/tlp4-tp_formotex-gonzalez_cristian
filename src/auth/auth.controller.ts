@@ -1,19 +1,9 @@
 import type { Request, Response } from "express";
 import type { IAuthService } from "./interfaces/IAuthService.js";
-import type { LoginDto, RegisterDto } from "./DTOs/authDTO.js";
+import type { LoginDto } from "./DTOs/authDTO.js";
 
 export class AuthCtrl {
   constructor(private authService: IAuthService) {}
-
-  public register = async (req: Request, res: Response) => {
-    const registerData: RegisterDto = req.body;
-    const result = await this.authService.register(
-      registerData.name,
-      registerData.email,
-      registerData.password
-    );
-    return res.json(result);
-  };
 
   public login = async (req: Request, res: Response) => {
     const loginData: LoginDto = req.body;

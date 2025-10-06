@@ -1,10 +1,7 @@
 import { Router } from "express";
 import { AuthCtrl } from "./auth.controller.js";
 import { AuthService } from "./auth.service.js";
-import {
-  loginValidation,
-  registerValidation,
-} from "./validations/auth.validation.js";
+import { loginValidation } from "./validations/auth.validation.js";
 import { handleValidationErrors } from "../helpers/handleValidationErrors.js";
 import { VerifyJWT } from "../middlewares/verifyJWT.js";
 import { UserRepository } from "../user/repositories/UserRepository.js";
@@ -17,12 +14,6 @@ const userService = new UserService(userRepository);
 const authService = new AuthService(userService);
 const authCtrl = new AuthCtrl(authService);
 
-authRouter.post(
-  "/register",
-  registerValidation,
-  handleValidationErrors,
-  authCtrl.register
-);
 authRouter.post(
   "/login",
   loginValidation,

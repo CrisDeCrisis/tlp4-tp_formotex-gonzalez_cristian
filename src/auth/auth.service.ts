@@ -2,42 +2,9 @@ import type { IUserService } from "../user/user.service.js";
 import type { AuthResult } from "./DTOs/authDTO.js";
 import type { IAuthService } from "./interfaces/IAuthService.js";
 import { JWT } from "../helpers/JWT.js";
-import { UserRole } from "../user/models/userModel.js";
 
 export class AuthService implements IAuthService {
   constructor(private userService: IUserService) {}
-
-  async register(
-    name: string,
-    email: string,
-    password: string
-  ): Promise<AuthResult> {
-    try {
-      const newUser = await this.userService.createUser({
-        name,
-        email,
-        password,
-        role: UserRole.USER,
-      });
-
-      const token = JWT.generateToken({
-        id: newUser.id,
-        email: newUser.email,
-        role: newUser.role,
-      });
-
-      return {
-        success: true,
-        message: "Usuario registrado exitosamente",
-        token,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: `Error al registrar usuario: ${error}`,
-      };
-    }
-  }
 
   async login(email: string, password: string): Promise<AuthResult> {
     try {
