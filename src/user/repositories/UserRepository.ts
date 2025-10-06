@@ -14,7 +14,7 @@ export interface IUserRepository {
 
 export class UserRepository implements IUserRepository {
   private mapToEntity(userDoc: IUser & { _id: any }): User {
-    return new User(
+    return User.fromDatabase(
       userDoc._id.toString(),
       userDoc.name,
       userDoc.email,

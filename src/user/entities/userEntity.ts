@@ -17,16 +17,45 @@ export class User {
     email: string,
     password: string,
     role: UserRole = UserRole.USER
-  ): User {
-    return new User(
-      "",
+  ): {
+    name: string;
+    email: string;
+    password: string;
+    role: UserRole;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+  } {
+    return {
       name,
       email,
       password,
       role,
-      true,
-      new Date(),
-      new Date()
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
+
+  public static fromDatabase(
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    role: UserRole,
+    isActive: boolean,
+    createdAt: Date,
+    updatedAt: Date
+  ): User {
+    return new User(
+      id,
+      name,
+      email,
+      password,
+      role,
+      isActive,
+      createdAt,
+      updatedAt
     );
   }
 

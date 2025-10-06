@@ -4,6 +4,7 @@ import type {
   UserResponseDto,
   UserListResponseDto,
 } from "./DTOs/userDTO.js";
+import type { User } from "./entities/userEntity.js";
 import type { IUserRepository } from "./repositories/UserRepository.js";
 import bcrypt from "bcrypt";
 
@@ -28,7 +29,7 @@ export interface IUserService {
 export class UserService implements IUserService {
   constructor(private userRepository: IUserRepository) {}
 
-  private mapToResponse(user: any): UserResponseDto {
+  private mapToResponse(user: User): UserResponseDto {
     return {
       id: user.id,
       name: user.name,

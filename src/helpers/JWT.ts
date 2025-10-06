@@ -1,10 +1,11 @@
 import jwt, { type SignOptions } from "jsonwebtoken";
 import envs from "../configs/envs.config.js";
+import type { UserRole } from "../user/models/userModel.js";
 
 export interface JWTPayload {
   id: string;
   email: string;
-  role: string; // Rol del usuario (admin o user)
+  role: UserRole;
 }
 
 export class JWT {
