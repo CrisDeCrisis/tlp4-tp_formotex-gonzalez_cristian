@@ -12,9 +12,15 @@ declare global {
 export class VerifyJWT {
   static verifyToken(req: Request, res: Response, next: NextFunction) {
     try {
-      // !! Para el ambiente de desarrollo se envia el token por body
-      // todo: cambiar a envio por cookies al terminar la implementación
-      const token = req.body.token;
+      const authHeader = req.headers.authorization;
+
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({
+          message: "Token no proporcionado. Use: Authorization: Bearer <token>",
+        });
+      }
+
+      const token = authHeader.split(" ")[1];
 
       if (!token) {
         return res.status(401).json({ message: "Unauthorized" });

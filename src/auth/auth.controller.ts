@@ -15,7 +15,15 @@ export class AuthCtrl {
   };
 
   public session = async (req: Request, res: Response) => {
-    const token = req.cookies["token"];
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Token no proporcionado en el header Authorization",
+      });
+    }
+
     return res.send(await this.authService.session(token));
   };
 

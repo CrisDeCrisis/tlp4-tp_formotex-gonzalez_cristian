@@ -73,7 +73,6 @@ const assignmentSchema = new Schema<IAssignment>(
   }
 );
 
-// Índices
 assignmentSchema.index({ equipment: 1, status: 1 });
 assignmentSchema.index({ user: 1, status: 1 });
 assignmentSchema.index({ assignmentDate: -1 });

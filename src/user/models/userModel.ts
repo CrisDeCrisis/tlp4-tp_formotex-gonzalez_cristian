@@ -51,7 +51,6 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-// Índices adicionales (email ya tiene índice por ser unique)
 userSchema.index({ role: 1 });
 
 export const UserModel = model<IUser>("User", userSchema);

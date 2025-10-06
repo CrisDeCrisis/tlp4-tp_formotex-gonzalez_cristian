@@ -19,10 +19,8 @@ const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
-// Ruta pública - Solo para obtener el perfil del usuario autenticado
 userRouter.get("/profile", VerifyJWT.verifyToken, userController.getProfile);
 
-// Rutas protegidas solo para SUPER_ADMIN
 userRouter.patch(
   "/:id/promote",
   VerifyJWT.verifyToken,
@@ -32,7 +30,6 @@ userRouter.patch(
   userController.promoteToAdmin
 );
 
-// Rutas protegidas para ADMINISTRADORES (ADMIN o SUPER_ADMIN)
 userRouter.post(
   "/",
   VerifyJWT.verifyToken,
@@ -78,7 +75,6 @@ userRouter.patch(
   userController.activateUser
 );
 
-// Rutas que pueden acceder ADMIN o el propio usuario
 userRouter.get(
   "/:id",
   VerifyJWT.verifyToken,

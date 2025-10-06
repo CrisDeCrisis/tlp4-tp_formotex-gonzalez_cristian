@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npx tsx --watch src/index.ts",
     "test": "npx tsx src/testing/run-tests.ts",
-    "seed": "npx tsx src/database/seed.ts"
+    "seed": "npx tsx src/database/seed.ts",
+    "demo": "npx tsx src/testing/demo-patterns.ts"
   },
   "keywords": [],
   "author": "",
