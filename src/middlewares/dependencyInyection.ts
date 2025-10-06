@@ -1,4 +1,3 @@
-// core/dependency-injection.ts
 type Constructor<T = any> = new (...args: any[]) => T;
 
 class DIContainer {
@@ -13,8 +12,11 @@ class DIContainer {
     this.singletons.set(token, classRef);
   }
 
+  registerInstance<T>(token: string, instance: T): void {
+    this.instances.set(token, instance);
+  }
+
   resolve<T>(token: string): T {
-    // Si es un singleton, retornar la instancia existente o crear una nueva
     if (this.singletons.has(token)) {
       const singletonClass = this.singletons.get(token);
       if (!this.instances.has(token)) {
@@ -23,13 +25,21 @@ class DIContainer {
       return this.instances.get(token);
     }
 
-    // Si es una clase normal, crear nueva instancia
     if (this.instances.has(token)) {
-      const classRef = this.instances.get(token);
-      return new classRef();
+      const value = this.instances.get(token);
+      return typeof value === "function" ? new value() : value;
     }
 
     throw new Error(`Dependencia ${token} no encontrada`);
+  }
+
+  has(token: string): boolean {
+    return this.instances.has(token) || this.singletons.has(token);
+  }
+
+  clear(): void {
+    this.instances.clear();
+    this.singletons.clear();
   }
 }
 

@@ -1,7 +1,4 @@
 import { Router } from "express";
-import { EquipmentController } from "./equipment.controller.js";
-import { EquipmentService } from "./equipment.service.js";
-import { EquipmentRepository } from "./repositories/EquipmentRepository.js";
 import { VerifyJWT } from "../middlewares/verifyJWT.js";
 import { VerifyRole } from "../middlewares/verifyRole.js";
 import {
@@ -18,21 +15,11 @@ import {
   returnEquipmentValidation,
 } from "./validations/equipment.validation.js";
 import { handleValidationErrors } from "../helpers/handleValidationErrors.js";
-import { AdminNotifierObserver } from "./observers/AdminNotifierObserver.js";
-import { HistoryLoggerObserver } from "./observers/HistoryLoggerObserver.js";
+import { getEquipmentController } from "../configs/dependencies.config.js";
 
 const equipmentRouter = Router();
 
-const equipmentRepository = new EquipmentRepository();
-const equipmentService = new EquipmentService(equipmentRepository);
-
-const adminNotifier = new AdminNotifierObserver();
-const historyLogger = new HistoryLoggerObserver();
-
-equipmentService.attach(adminNotifier);
-equipmentService.attach(historyLogger);
-
-const equipmentController = new EquipmentController(equipmentService);
+const equipmentController = getEquipmentController();
 
 equipmentRouter.post(
   "/",
@@ -141,5 +128,3 @@ equipmentRouter.delete(
 );
 
 export default equipmentRouter;
-
-export { adminNotifier, historyLogger, equipmentService };

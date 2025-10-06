@@ -1,7 +1,4 @@
 import { Router } from "express";
-import { UserController } from "./user.controller.js";
-import { UserService } from "./user.service.js";
-import { UserRepository } from "./repositories/UserRepository.js";
 import { VerifyJWT } from "../middlewares/verifyJWT.js";
 import { VerifyRole } from "../middlewares/verifyRole.js";
 import {
@@ -12,12 +9,11 @@ import {
   paginationValidation,
 } from "./validations/user.validation.js";
 import { handleValidationErrors } from "../helpers/handleValidationErrors.js";
+import { getUserController } from "../configs/dependencies.config.js";
 
 const userRouter = Router();
 
-const userRepository = new UserRepository();
-const userService = new UserService(userRepository);
-const userController = new UserController(userService);
+const userController = getUserController();
 
 userRouter.get("/profile", VerifyJWT.verifyToken, userController.getProfile);
 
