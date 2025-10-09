@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import type { IUserService } from "./user.service.js";
 import type { CreateUserDto, UpdateUserDto } from "./DTOs/userDTO.js";
+import { matchedData } from "express-validator";
 
 export class UserController {
   constructor(private userService: IUserService) {}
@@ -10,7 +11,7 @@ export class UserController {
     res: Response
   ): Promise<Response> => {
     try {
-      const userData: CreateUserDto = req.body;
+      const userData: CreateUserDto = matchedData(req, { locations: ["body"] });
       const newUser = await this.userService.createUser(userData);
       return res.status(201).json({
         success: true,
